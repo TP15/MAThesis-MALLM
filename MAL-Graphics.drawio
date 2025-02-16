@@ -4,11 +4,17 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="hG1oWdDg106iIrrdXNge-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="270" y="160" width="120" height="60" as="geometry" />
-        </mxCell>
         <mxCell id="hG1oWdDg106iIrrdXNge-2" value="" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" parent="1" vertex="1">
-          <mxGeometry x="450" y="90" width="220" height="200" as="geometry" />
+          <mxGeometry y="80" width="670" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="hG1oWdDg106iIrrdXNge-1" value="MODEL" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="170" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MmDlDIk7cSTtpNqKVYXz-2" value="Unstrcutred data" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.documents;" vertex="1" parent="1">
+          <mxGeometry x="50" y="170" width="22.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MmDlDIk7cSTtpNqKVYXz-3" value="Structured respond" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.documents;" vertex="1" parent="1">
+          <mxGeometry x="570" y="200" width="22.5" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -18,6 +24,9 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="qL4WbmbikjW_WoXq0OuZ-1" value="" style="rounded=1;whiteSpace=wrap;html=1;gradientColor=default;fillColor=none;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="650" height="340" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
