@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.8</version>
+  </skin>
+  <custom>
+    <fluidoSkin>
+      <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+      <gitHub>
+        <projectId>mal-lang/coreLang</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+      </gitHub>
+    </fluidoSkin>
+  </custom>
+  <bannerLeft>
+    <name>MAL</name>
+    <src>https://mal-lang.org/helmet.svg</src>
+    <href>https://mal-lang.org/</href>
+  </bannerLeft>
+  <publishDate position="right"/>
+  <version position="right"/>
+  <body>
+    <menu name="Overview">
+      <item name="Introduction" href="index.html"/>
+      <item name="Contributors" href="contributors.html"/>
+    </menu>
+    <menu ref="reports"/>
+    <breadcrumbs>
+      <item name="MAL" href="https://mal-lang.org/"/>
+      <item name="coreLang" href="https://mal-lang.org/coreLang/"/>
+    </breadcrumbs>
+    <footer><![CDATA[
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <p>
+          Copyright &copy; 2019-2020
+          <a href="https://mal-lang.org/coreLang/contributors.html"><span style="white-space: nowrap;">coreLang contributors</span></a>,
+          Licensed under the
+          <a href="https://www.apache.org/licenses/LICENSE-2.0"><span style="white-space: nowrap;">Apache License, Version 2.0</span></a>.
+        </p>
+        <img alt="MAL logo" style="width: 3em; height: 3em;" src="https://mal-lang.org/helmet.svg"/>
+        <p>
+          This work,
+          &quot;<span style="white-space: nowrap;">MAL logo</span>&quot;,
+          is a derivative of
+          &quot;<a href="https://thenounproject.com/term/diving-helmet/2448842/"><span style="white-space: nowrap;">Diving Helmet</span></a>&quot;
+          icon by
+          <a href="https://thenounproject.com/madexmadeicons/"><span style="white-space: nowrap;">Made x Made Icons</span></a>
+          from
+          <a href="https://thenounproject.com/"><span style="white-space: nowrap;">the Noun Project</span></a>,
+          used under
+          <a href="https://creativecommons.org/licenses/by/3.0/"><span style="white-space: nowrap;">CC BY 3.0</span></a>.
+          <br/>
+          &quot;<span style="white-space: nowrap;">MAL logo</span>&quot;
+          is licensed under
+          <a href="https://creativecommons.org/licenses/by/4.0/"><span style="white-space: nowrap;">CC BY 4.0</span></a>
+          by
+          <a href="https://www.foreseeti.com/"><span style="white-space: nowrap;">Foreseeti AB</span></a>.
+        </p>
+      </div>
+    ]]></footer>
+  </body>
+</project>
