@@ -1,0 +1,19 @@
+import re
+import json
+
+def extract_assets(mal_file_path, output_file_path):
+    with open(mal_file_path, 'r') as file:
+        content = file.read()
+
+    asset_pattern = re.compile(r'(associations\s*\{[^{}]*\})', re.MULTILINE | re.DOTALL)
+    matches = asset_pattern.findall(content)
+
+    with open(output_file_path, 'w') as outfile:
+        for match in matches:
+            json.dump({'Output': match.strip()}, outfile)
+            outfile.write('\n')
+
+    print(f"Extracted {len(matches)} assets to {output_file_path}")
+
+# Example usage:
+extract_assets('MAL Languages/allMALfiles/exampleLang.mal', 'assets.jsonl')
