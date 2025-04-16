@@ -83,14 +83,23 @@ def process_jsonl(input_path: str, output_path: str):
         for idx, line in enumerate(infile, start=1):
             try:
                 data = json.loads(line)
-                prompt = data.get("Output", "")
-                mal_type = data.get("Type","")
-                if not prompt.strip():
-                    print(f" Skipping line {idx}: Empty 'Output' field.")
+                if not isinstance(data, dict):
+                    print(f" ⚠️ Skipping line {idx}: Not a JSON object.")
+                    continue
+
+                prompt = data.get("Output")
+                mal_type = data.get("Type")
+
+                if prompt is None:
+                    print(f" ⚠️ Skipping line {idx}: 'Output' is None.")
+                    continue
+                if not isinstance(prompt, str) or not prompt.strip():
+                    print(f" ⚠️ Skipping line {idx}: 'Output' is empty or not a string.")
                     continue
 
                 print(f"🔍 Processing line {idx}...")
                 response = generate_response(prompt)
+
                 if mal_type == "category":
                     instruction = random.choice(category_instructions)
                 elif mal_type == "asset":
@@ -109,11 +118,30 @@ def process_jsonl(input_path: str, output_path: str):
                 outfile.write(json.dumps(result, ensure_ascii=False) + "\n")
 
             except json.JSONDecodeError as e:
-                print(f" JSON error on line {idx}: {e}")
+                print(f" ❗ JSON error on line {idx}: {e}")
             except Exception as e:
-                print(f" Processing error on line {idx}: {e}")
+                print(f" ❗ Processing error on line {idx}: {e}")
+
+def combine_jsonl_files(folder_path: str, combined_file_path: str):
+    with open(combined_file_path, "w", encoding="utf-8") as outfile:
+        for filename in sorted(glob.glob(os.path.join(folder_path, "*.jsonl"))):
+            with open(filename, "r", encoding="utf-8") as infile:
+                shutil.copyfileobj(infile, outfile)
 
 if __name__ == "__main__":
-    input_file = "/Users/thomaspathe/Documents/MAThesis-MALLM/jsonl_outputs/Controller.jsonl"
-    output_file = "output_descriptions.jsonl"
-    process_jsonl(input_file, output_file)
+    input_folder = "/Users/thomaspathe/Documents/MAThesis-MALLM/jsonl_outputs"
+    output_folder = "output_jsonl_files"
+    os.makedirs(output_folder, exist_ok=True)
+
+    input_files = glob.glob(os.path.join(input_folder, "*.jsonl"))
+    print(f"📂 Found {len(input_files)} JSONL files to process.")
+
+    for input_file in input_files:
+        base_name = os.path.splitext(os.path.basename(input_file))[0]
+        output_path = os.path.join(output_folder, f"{base_name}_processed.jsonl")
+        print(f"🚀 Processing {base_name}...")
+        process_jsonl(input_file, output_path)
+
+    combined_output_path = os.path.join(output_folder, "combined_output.jsonl")
+    combine_jsonl_files(output_folder, combined_output_path)
+    print(f"\n✅ All files processed and combined into: {combined_output_path}")

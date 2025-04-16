@@ -2,50 +2,41 @@
 #version: "1.0.0"
 
 category Spaceship {
-  asset CommandBridge {
-    | issueOverrideCommands
-      -> subsystems.controlled
-  }
 
-  asset Subsystem {
-    | scan
-      -> exploit
-    | exploit
-      -> controlled
-    | controlled
-  }
+    asset CommandBridge {
+        | access -> issueOverrideCommands
+    }
 
-  asset EngineeringConsole {
-    | authenticate
-      -> access
-    | bruteForce
-      -> access
-    | access
-      -> subsystem.controlled
-  }
+    asset Subsystem {
+        | scan -> exploit
+        exploit [Exponential(0.05)] -> control
+        control -> malfunction
+    }
 
-  asset CrewMember {
-    | attemptPhishing
-      -> phish
-    | phish
-      -> credentials.leak
-  }
+    asset EngineeringConsole {
+        | bruteForce -> authenticate
+        authenticate -> overrideSubsystems
+    }
 
-  asset Credential {
-    | leak
-      -> engineeringConsole.authenticate
-  }
+    asset CrewMember {
+        | attemptPhishing -> phish
+        phish [Exponential(0.1)] -> credentials.leak
+    }
 
-  asset AlienIntruder {
-    | breachInternalSecurity
-      -> engineeringConsoles.access
-  }
-}
+    asset Credentials {
+        | leak -> consoles.authenticate
+    }
 
-associations {
-  CommandBridge [commandBridge] 1 <-- Control --> * [subsystems] Subsystem
-  Subsystem [subsystem] * <-- ShipNetwork --> * [engineeringConsoles] EngineeringConsole
-  EngineeringConsole [engineeringConsole] * <-- Credentials --> * [credentials] Credential
-  CrewMember [crewMember] * <-- Credentials --> * [credentials] Credential
-  AlienIntruder [alienIntruder] * <-- PhysicalInfiltration --> * [engineeringConsoles] EngineeringConsole
+    asset AlienIntruder {
+        | breachSecurity -> interfaceConsoles
+        interfaceConsoles -> consoles.authenticate
+    }
+
+    associations {
+        CommandBridge [commandBridge] 1 <-- ShipNetwork --> * [subsystems] Subsystem
+        Subsystem [subsystem] * <-- Control --> * [consoles] EngineeringConsole
+        CrewMember [crewMember] * <-- Credentials --> * [credentials] Credentials
+        EngineeringConsole [console] * <-- Credentials --> * [credentials] Credentials
+        AlienIntruder [alienIntruder] * <-- PhysicalAccess --> * [consoles] EngineeringConsole
+    }
 }
