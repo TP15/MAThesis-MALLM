@@ -1,0 +1,51 @@
+#id: "org.mal-lang.spaceshiplang"
+#version: "1.0.0"
+
+category Spaceship {
+  asset CommandBridge {
+    | issueOverrideCommands
+      -> subsystems.controlled
+  }
+
+  asset Subsystem {
+    | scan
+      -> exploit
+    | exploit
+      -> controlled
+    | controlled
+  }
+
+  asset EngineeringConsole {
+    | authenticate
+      -> access
+    | bruteForce
+      -> access
+    | access
+      -> subsystem.controlled
+  }
+
+  asset CrewMember {
+    | attemptPhishing
+      -> phish
+    | phish
+      -> credentials.leak
+  }
+
+  asset Credential {
+    | leak
+      -> engineeringConsole.authenticate
+  }
+
+  asset AlienIntruder {
+    | breachInternalSecurity
+      -> engineeringConsoles.access
+  }
+}
+
+associations {
+  CommandBridge [commandBridge] 1 <-- Control --> * [subsystems] Subsystem
+  Subsystem [subsystem] * <-- ShipNetwork --> * [engineeringConsoles] EngineeringConsole
+  EngineeringConsole [engineeringConsole] * <-- Credentials --> * [credentials] Credential
+  CrewMember [crewMember] * <-- Credentials --> * [credentials] Credential
+  AlienIntruder [alienIntruder] * <-- PhysicalInfiltration --> * [engineeringConsoles] EngineeringConsole
+}
