@@ -1,0 +1,92 @@
+ASSET INSTRUCTIONS:
+Convert the following cyber-attack description into Meta Attack Language code.
+Example: A hacker gains initial access by phishing an employee and installs a remote access trojan (RAT) on their workstation.
+
+Generate a Meta Attack Language snippet that models the scenario described below.
+Example: An attacker moves laterally from a compromised user account to a domain controller by exploiting a vulnerability in SMB.
+
+Given this cyber incident, write its equivalent representation in Meta Attack Language.
+Example: A malicious insider exfiltrates sensitive customer data from a CRM system by abusing their privileged access.
+
+Translate this attack story into valid Meta Attack Language format.
+Example: An attacker uses ransomware to encrypt files on multiple endpoints after gaining domain admin rights.
+
+Write the Meta Attack Language structure for the following description.
+Example: A brute-force attack is used to compromise an external-facing SSH server.
+
+Represent the attack behavior below in your custom Meta Attack Language.
+Example: An attacker leverages a web application vulnerability to inject a backdoor into the application server.
+
+Use Meta Attack Language to capture the steps described here.
+Example: DNS tunneling is used to exfiltrate data from an internal network.
+
+Model this cybersecurity attack using Meta Attack Language syntax.
+Example: The attacker sets up persistence by creating a scheduled task that launches malware on system startup.
+
+Write code in Meta Attack Language to describe the attack below.
+Example: Credential dumping tools are used to harvest passwords from memory.
+
+Convert the input into a structured Meta Attack Language format.
+Example: A watering hole attack infects visitors of a specific website with malware targeting their operating system.
+
+CATEGORY INSTRUCTIONS:
+Define the following group of assets under a single category using Meta Attack Language.
+Example: Assets: WindowsWorkstation, MacWorkstation, LinuxWorkstation
+
+Create a category in Meta Attack Language that includes the assets listed below.
+Example: Assets: WebServer, DatabaseServer, MailServer
+
+Given these related assets, write a category definition in Meta Attack Language.
+Example: Assets: UserAccount, AdminAccount, ServiceAccount
+
+Group the following assets into a category using the correct Meta Attack Language syntax.
+Example: Assets: Laptop, MobilePhone, Tablet
+
+Write a Meta Attack Language snippet that declares a category containing these assets.
+Example: Assets: Firewall, IDS, IPS
+
+Translate the grouping below into a category definition in Meta Attack Language.
+Example: Assets: HRApplication, FinanceApplication, CRMApplication
+
+Use Meta Attack Language to define a category that encompasses the following assets.
+Example: Assets: CloudVM, CloudStorage, CloudDatabase
+
+Model the following group of assets under a category using Meta Attack Language.
+Example: Assets: VPNGateway, ProxyServer, AuthenticationServer
+
+Write the Meta Attack Language representation for a category including these assets.
+Example: Assets: SCADAController, RTU, PLC
+
+Create a valid Meta Attack Language definition for the described asset category.
+Example: Assets: DevEnvironment, TestEnvironment, ProdEnvironment
+
+ASSOCIATION INSTRUCTIONS:
+Define the relationship between these two assets using an association in Meta Attack Language.
+Example: UserAccount has access to WindowsWorkstation
+
+Write a Meta Attack Language association that links the following assets.
+Example: WebServer communicates with DatabaseServer
+
+Model the connection described below as an association in Meta Attack Language.
+Example: Firewall protects InternalNetwork
+
+Use Meta Attack Language to describe the association between the listed assets.
+Example: AdminAccount manages CloudVM
+
+Create an association definition in Meta Attack Language for this asset interaction.
+Example: EmailServer sends data to ExternalMailService
+
+Translate this asset linkage into a valid Meta Attack Language association.
+Example: CRMApplication stores data in DatabaseServer
+
+Write a Meta Attack Language snippet representing this association between entities.
+Example: IDS monitors TrafficFlow
+
+Represent the described interaction as a Meta Attack Language association.
+Example: Laptop connects to VPNGateway
+
+Define an association in Meta Attack Language using the connection details below.
+Example: ServiceAccount operates on ApplicationServer
+
+Generate a Meta Attack Language association linking the following asset types.
+Example: SCADAController controls RTU
