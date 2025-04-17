@@ -69,7 +69,7 @@ def generate_response(prompt: str, model="mistralai/mistral-7b-instruct:free", t
         )
 
         output = response.choices[0].message.content.strip()
-        print(f"🧠 Response received: {output[:80]}{'...' if len(output) > 80 else ''}")
+        print(f" Response received: {output[:80]}{'...' if len(output) > 80 else ''}")
         return output
 
     except Exception as e:
@@ -84,17 +84,17 @@ def process_jsonl(input_path: str, output_path: str):
             try:
                 data = json.loads(line)
                 if not isinstance(data, dict):
-                    print(f" ⚠️ Skipping line {idx}: Not a JSON object.")
+                    print(f"  Skipping line {idx}: Not a JSON object.")
                     continue
 
                 prompt = data.get("Output")
                 mal_type = data.get("Type")
 
                 if prompt is None:
-                    print(f" ⚠️ Skipping line {idx}: 'Output' is None.")
+                    print(f"  Skipping line {idx}: 'Output' is None.")
                     continue
                 if not isinstance(prompt, str) or not prompt.strip():
-                    print(f" ⚠️ Skipping line {idx}: 'Output' is empty or not a string.")
+                    print(f"  Skipping line {idx}: 'Output' is empty or not a string.")
                     continue
 
                 print(f"🔍 Processing line {idx}...")
@@ -118,9 +118,9 @@ def process_jsonl(input_path: str, output_path: str):
                 outfile.write(json.dumps(result, ensure_ascii=False) + "\n")
 
             except json.JSONDecodeError as e:
-                print(f" ❗ JSON error on line {idx}: {e}")
+                print(f"  JSON error on line {idx}: {e}")
             except Exception as e:
-                print(f" ❗ Processing error on line {idx}: {e}")
+                print(f"  Processing error on line {idx}: {e}")
 
 def combine_jsonl_files(folder_path: str, combined_file_path: str):
     with open(combined_file_path, "w", encoding="utf-8") as outfile:
@@ -134,14 +134,14 @@ if __name__ == "__main__":
     os.makedirs(output_folder, exist_ok=True)
 
     input_files = glob.glob(os.path.join(input_folder, "*.jsonl"))
-    print(f"📂 Found {len(input_files)} JSONL files to process.")
+    print(f" Found {len(input_files)} JSONL files to process.")
 
     for input_file in input_files:
         base_name = os.path.splitext(os.path.basename(input_file))[0]
         output_path = os.path.join(output_folder, f"{base_name}_processed.jsonl")
-        print(f"🚀 Processing {base_name}...")
+        print(f" Processing {base_name}...")
         process_jsonl(input_file, output_path)
 
-    combined_output_path = os.path.join(output_folder, "combined_output.jsonl")
+    combined_output_path = os.path.join("/Users/thomaspathe/Documents/MAThesis-MALLM", "combined_output.jsonl")
     combine_jsonl_files(output_folder, combined_output_path)
-    print(f"\n✅ All files processed and combined into: {combined_output_path}")
+    print(f"\n All files processed and combined into: {combined_output_path}")
