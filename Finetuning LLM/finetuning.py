@@ -1,32 +1,88 @@
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
-from trl import PPOTrainer, PPOConfig
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    TrainingArguments,
+    Trainer,
+    DataCollatorForLanguageModeling
+)
+from peft import LoraConfig, get_peft_model, TaskType
+from datasets import load_dataset
 
-# Modell und Tokenizer laden
-model_name = "gpt2"
-model = GPT2LMHeadModel.from_pretrained(model_name)
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+# === Load model and tokenizer ===
+model_name = "mistralai/Mistral-7B-v0.1"
 
-# Custom Reward Function
-def custom_reward_function(output):
-    # Beispiel: Belohne lange und kohärente Antworten
-    length_reward = len(output.split()) / 10
-    coherence_reward = 1.0 if "sinnvolle Antwort" in output else -1.0
-    return length_reward + coherence_reward
+tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
+tokenizer.pad_token = tokenizer.eos_token  # Mistral tokenizer doesn't have pad_token
 
-# PPO Konfiguration
-config = PPOConfig(
-    model_name=model_name,
-    learning_rate=1e-5,
-    batch_size=32,
-    ppo_epochs=10,
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    load_in_4bit=True,  # requires bitsandbytes
+    device_map="auto"
 )
 
-# PPO Trainer
-trainer = PPOTrainer(model, tokenizer, config)
+# === Apply LoRA ===
+lora_config = LoraConfig(
+    r=8,
+    lora_alpha=32,
+    target_modules=["q_proj", "v_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    task_type=TaskType.CAUSAL_LM,
+)
 
-# Training
-for batch in data_loader:
-    input_ids = tokenizer(batch["text"], return_tensors="pt").input_ids
-    outputs = model.generate(input_ids)
-    reward = custom_reward_function(tokenizer.decode(outputs[0], skip_special_tokens=True))
-    trainer.step(input_ids, outputs, reward)
+model = get_peft_model(model, lora_config)
+
+# === Load and preprocess your JSONL dataset ===
+dataset_path = "/Users/thomaspathe/Documents/MAThesis-MALLM/Finetunedatasetfolder/combined_output_FT170425.jsonl"
+dataset = load_dataset("json", data_files=dataset_path, split="train")
+
+# Format: Instruction-style prompt
+def format_prompt(example):
+    prompt = f"### Instruction:\n{example['instruction']}\n\n### Input:\n{example['input']}\n\n### Response:\n{example['output']}"
+    return {"text": prompt}
+
+# Apply formatting
+dataset = dataset.map(format_prompt)
+
+# Tokenize prompts
+def tokenize(example):
+    return tokenizer(
+        example["text"],
+        truncation=True,
+        padding="max_length",
+        max_length=512,
+    )
+
+tokenized_dataset = dataset.map(tokenize, batched=True)
+
+# === Training configuration ===
+training_args = TrainingArguments(
+    output_dir="./mistral-lora",
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=16,
+    num_train_epochs=3,
+    logging_dir="./logs",
+    save_total_limit=1,
+    save_strategy="epoch",
+    fp16=True,
+    learning_rate=2e-4,
+    optim="paged_adamw_8bit",
+    logging_steps=10,
+    report_to="none",
+)
+
+# === Trainer setup ===
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized_dataset,
+    tokenizer=tokenizer,
+    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False),
+)
+
+# === Start training ===
+trainer.train()
+
+# === Save final model ===
+model.save_pretrained("mistral-lora-ft")
+tokenizer.save_pretrained("mistral-lora-ft")
