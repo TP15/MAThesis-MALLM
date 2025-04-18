@@ -149,7 +149,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
+#gradio files
+.gradio/
 # pytype static type analyzer
 .pytype/
 
