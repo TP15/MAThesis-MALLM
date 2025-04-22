@@ -6,7 +6,7 @@ import glob
 import shutil
 
 client = OpenAI(
-    api_key="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",  # Replace if needed
+    api_key="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",
     base_url="https://openrouter.ai/api/v1"
 )
 
@@ -46,6 +46,19 @@ association_instructions = [
     "Represent the described interaction as a Meta Attack Language association.",
     "Define an association in Meta Attack Language using the connection details below.",
     "Generate a Meta Attack Language association linking the following asset types."
+]
+
+language_instructions = [
+    "Design a complete Meta Attack Language model that includes asset definitions, grouped categories, and associations for the scenario below.",
+    "Write a Meta Attack Language file from scratch that defines relevant assets, organizes them into categories, and models their interactions through associations.",
+    "Translate the following cybersecurity system into a full Meta Attack Language specification, including asset classes, categories, and associations.",
+    "Given the described infrastructure and threat scenario, generate a comprehensive MAL language definition, covering assets, categories, and associations.",
+    "Write a Meta Attack Language snippet that models the entire threat landscape below, including asset types, logical groupings (categories), and how they are connected (associations).",
+    "Create a complete .mal file using Meta Attack Language that defines assets, groups them into categories, and specifies their relationships.",
+    "Convert the architectural and threat description below into a structured Meta Attack Language definition with all required elements: assets, categories, and associations.",
+    "Generate a Meta Attack Language structure that models a threat scenario using proper categories for asset grouping and associations for inter-asset relations.",
+    "Build a complete attack surface model using Meta Attack Language by defining custom assets, assigning them to categories, and describing their interactions via associations.",
+    "Using Meta Attack Language, create a full language model that reflects the described environment. Ensure to include asset types, logical category groupings, and all necessary associations."
 ]
 
 def generate_response(prompt: str, model="mistralai/mistral-7b-instruct:free", temperature=0.7, max_tokens=1000):
@@ -97,7 +110,7 @@ def process_jsonl(input_path: str, output_path: str):
                     print(f"  Skipping line {idx}: 'Output' is empty or not a string.")
                     continue
 
-                print(f"🔍 Processing line {idx}...")
+                print(f"Processing line {idx}...")
                 response = generate_response(prompt)
 
                 if mal_type == "category":
@@ -106,6 +119,8 @@ def process_jsonl(input_path: str, output_path: str):
                     instruction = random.choice(asset_instructions)
                 elif mal_type == "association":
                     instruction = random.choice(association_instructions)
+                elif mal_type == "language":
+                    instruction = random.choice(language_instructions)
                 else:
                     instruction = "Convert the following input into Meta Attack Language format."
 
@@ -129,8 +144,8 @@ def combine_jsonl_files(folder_path: str, combined_file_path: str):
                 shutil.copyfileobj(infile, outfile)
 
 if __name__ == "__main__":
-    input_folder = "/Users/thomaspathe/Documents/MAThesis-MALLM/jsonl_outputs"
-    output_folder = "output_jsonl_files"
+    input_folder = "/Users/thomaspathe/Documents/MAThesis-MALLM/HelperData/MAL Languages/allMALfiles/jsonl_outputs"
+    output_folder = "/Users/thomaspathe/Documents/MAThesis-MALLM/HelperData/MAL Languages/allMALfiles/jsonl_output/outputgenerated_jsonl_files"
     os.makedirs(output_folder, exist_ok=True)
 
     input_files = glob.glob(os.path.join(input_folder, "*.jsonl"))
@@ -142,6 +157,6 @@ if __name__ == "__main__":
         print(f" Processing {base_name}...")
         process_jsonl(input_file, output_path)
 
-    combined_output_path = os.path.join("/Users/thomaspathe/Documents/MAThesis-MALLM", "combined_output.jsonl")
+    combined_output_path = os.path.join("/Users/thomaspathe/Documents/MAThesis-MALLM/HelperData/MAL Languages/allMALfiles/jsonl_outputs/", "combined_outputfinal.jsonl")
     combine_jsonl_files(output_folder, combined_output_path)
     print(f"\n All files processed and combined into: {combined_output_path}")

@@ -1,3 +1,5 @@
+#id: "org.mal_lang.vehcicleLangPublicInterfaceslang"
+#version: "1.0.0"
 category System {
 
     asset InfotainmentSystem extends Machine

@@ -1,0 +1,1 @@
+{"Output": "#id: \"org.mal_lang.corelang\"\n#version: \"1.0.0\"\n\ninclude \"ComputeResources.mal\"\ninclude \"DataResources.mal\"\ninclude \"IAM.mal\"\ninclude \"User.mal\"\ninclude \"Networking.mal\"\ninclude \"Vulnerability.mal\"", "Type": "language"}

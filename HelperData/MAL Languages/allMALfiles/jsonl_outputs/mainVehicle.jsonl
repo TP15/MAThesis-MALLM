@@ -1,0 +1,1 @@
+{"Output": "#id: \"org.mal-lang.vehicleLang\"\n#version: \"2.0.0\"\n\ninclude \"org.mal-lang.coreLang/coreLang.mal\"\ninclude \"vehicleLang.mal\"", "Type": "language"}

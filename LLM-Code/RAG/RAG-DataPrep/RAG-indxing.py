@@ -2,7 +2,6 @@ import os
 import json
 from langchain_core.documents import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
-
 from langchain_community.vectorstores import FAISS
 from typing import Dict, List, Any, Optional
 
@@ -17,7 +16,7 @@ FAISS_INDEX_PATH = "capec_faiss_index" # Name des Ordners für den FAISS Index
 # 'all-MiniLM-L6-v2' is a good starting point: fast and decent quality.
 # Other options: 'all-mpnet-base-v2' (better quality, slower), etc.
 # Make sure you have enough RAM/disk space for the chosen model.
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL_NAME = "all-mpnet-base-v2"
 
 # Object types to process from the input directory
 OBJECT_TYPES_TO_PROCESS = ["attack-pattern", "course-of-action"]

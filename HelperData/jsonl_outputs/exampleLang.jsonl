@@ -1,6 +1,0 @@
-{"Output": "category System \n  asset Network {\n    | access\n      -> hosts.connect\n  }", "Type": "category"}
-{"Output": "asset Network {\n    | access\n      -> hosts.connect\n  }", "Type": "asset"}
-{"Output": "asset Host {\n    | connect\n      -> access\n    | authenticate\n      -> access\n    | guessPassword\n      -> guessedPassword\n    | guessedPassword [Exponential(0.02)]\n      -> authenticate\n    & access\n  }", "Type": "asset"}
-{"Output": "asset User {\n    | attemptPhishing\n      -> phish\n    | phish [Exponential(0.1)]\n      -> passwords.obtain\n  }", "Type": "asset"}
-{"Output": "asset Password {\n    | obtain\n      -> host.authenticate\n  }", "Type": "asset"}
-{"Output": "associations {\n  Network [networks] * <-- NetworkAccess --> * [hosts] Host\n  Host [host] 1 <-- Credentials --> * [passwords] Password\n  User [user] 1 <-- Credentials --> * [passwords] Password\n}", "Type": "association"}

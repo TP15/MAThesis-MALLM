@@ -1,3 +1,5 @@
+#id: "org.mal_lang.VehiclelangEthernetlang"
+#version: "1.0.0"
 category System {
 
     asset EthernetGatewayECU extends GatewayECU
@@ -93,12 +95,10 @@ category Networking {
                     deny
   
         & aRPCachePoisoning
-                user info: "ARP spoofing works on all common IPv4 networks, both wirebound and wireless. For WPA2Enterprise, it can be exploited due to Hole196 (cf. https://www.cwnp.com/forums/posts?postNum=300580)."
                     -> 	adversaryInTheMiddle
  
         # portSecurity
                 user info: "You can use port security to restrict a port's ingress traffic by limiting the MAC addresses that are allowed to send traffic into the port."
-                developer info: "http://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst6500/ios/12-2SX/configuration/guide/book/port_sec.html"
                 -> 	bypassPortSecurity
 
         # staticARPTables 
