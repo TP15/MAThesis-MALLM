@@ -19,7 +19,7 @@
 category System {
   asset Network {
     | access
-      -> hosts.connect
+      -> host.connect
   }
 
   asset Host {

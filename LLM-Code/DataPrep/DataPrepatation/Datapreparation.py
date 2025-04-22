@@ -1,5 +1,11 @@
 import os
 import jsonlines  # Make sure to install with: pip install jsonlines
+import maltoolbox
+
+maltoolbox.compile(
+    '/Users/thomaspathe/Documents/MAThesis-MALLM/MAL Languages/allMALfiles',
+    '/Users/thomaspathe/Documents/MAThesis-MALLM/MAL Languages/allMALfiles/compiled'
+)
 
 # Convert all .mal files to JSONL format using jsonlines
 def convert_mal_to_jsonl(input_folder, output_file):
