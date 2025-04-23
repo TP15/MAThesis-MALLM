@@ -1,0 +1,70 @@
+#id: "org.mal-lang.ransomwarephishing"
+#version: "1.0.0"
+
+category CyberAttack {
+
+  asset Employee {
+    | receiveEmail
+      -> emailAccount.storeEmail
+
+    | openEmail
+      -> emailAccount.emails.displayContent
+
+    | clickMaliciousContent [Bernoulli(0.2)]
+      -> workstation.downloadPayload
+  }
+
+  asset EmailAccount {
+    | storeEmail
+      -> emails.received
+  }
+
+  asset Email {
+    | received
+      -> employee.receiveEmail
+
+    | displayContent
+      -> employee.clickMaliciousContent
+
+    & hasMaliciousPayload
+  }
+
+  asset Workstation {
+    | infectFileSystem
+      -> compromised
+
+    | downloadPayload
+      -> executePayload
+
+    | executePayload
+      -> infectFileSystem
+
+    & compromised
+  }
+
+  asset FileSystem {
+    | infectFileSystem
+      -> encryptFiles
+
+    | encryptFiles [Exponential(0.9)]
+      -> filesEncrypted
+
+    & filesEncrypted
+  }
+
+  asset NetworkShare {
+    | scanAndEncrypt
+      -> filesEncrypted
+
+    & filesEncrypted
+  }
+}
+
+associations {
+  Employee [employee] 1 <-- Uses --> 1 [workstation] Workstation
+  Employee [employee] 1 <-- HasAccessTo --> 1 [emailAccount] EmailAccount
+  Employee [employee] 1 <-- Accesses --> * [email] Email
+  EmailAccount [account] 1 <-- Contains --> * [emails] Email
+  Workstation [workstation] 1 <-- Contains --> 1 [fileSystem] FileSystem
+  Workstation [workstation] * <-- Accesses --> * [shares] NetworkShare
+}
