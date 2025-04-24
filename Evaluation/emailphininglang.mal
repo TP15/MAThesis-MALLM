@@ -3,7 +3,7 @@
 
 category CyberAttack {
 
-  asset Employee {
+  asset Employee 
     | receiveEmail
       -> emailAccount.storeEmail
 

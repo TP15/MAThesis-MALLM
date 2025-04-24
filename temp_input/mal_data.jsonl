@@ -1,0 +1,4 @@
+{"input": "This MAL code defines a series of attack steps...", "output": "asset Hardware\n      user info: \"Specifies the hardware...\"...", "type": "asset"}
+{"input": "Describes a network connection asset.", "output": "asset Network\n    {\n      | connect\n    }", "type": "asset"}
+{"bad json"
+{"input": "Only input key"}
