@@ -59,17 +59,15 @@ def transform_course_of_action(coa_data):
         "name": coa_data.get("name"),
         "version": coa_data.get("x_capec_version")
     }
-    # Entferne Metadaten-Felder, die None sind
     metadata = {k: v for k, v in metadata.items() if v is not None}
 
     return {
         "embedding_input": embedding_input,
-        "source_type": "CAPEC", # Quelle ist ebenfalls CAPEC-Kontext
+        "source_type": "CAPEC "+ coa_data.get("type", ""),
         "metadata": metadata,
-        "raw": coa_data # Der komplette Originaleintrag
+        "raw": coa_data
     }
 
-# --- MODIFIED FUNCTION ---
 def transform_and_combine_jsonl(attack_pattern_file, course_of_action_file, output_file):
     """
     Liest Attack Pattern und Course of Action JSON-Dateien (die jeweils
@@ -98,11 +96,11 @@ def transform_and_combine_jsonl(attack_pattern_file, course_of_action_file, outp
                 with open(attack_pattern_file, 'r', encoding='utf-8') as infile:
                     content = infile.read() # Read the whole file
                     try:
-                        # Parse the entire content as a JSON list
+                       
                         data_list = json.loads(content)
                         if not isinstance(data_list, list):
                             print(f"Error: Expected a JSON list in {attack_pattern_file}, but got {type(data_list)}")
-                            error_count += 1 # Count the whole file as an error
+                            error_count += 1 
                         else:
                              # Iterate through items in the list
                             for original_data in data_list:
