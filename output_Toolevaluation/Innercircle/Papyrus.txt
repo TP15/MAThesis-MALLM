@@ -1,0 +1,101 @@
+
+ Requirement: HLR-1 – Functional Suitability: Support for Full MAL Workflow
+Evaluation: 0.5 / 1
+Justification: Papyrus, fundamentally a UML/SysML modeling tool, does not natively support the full MAL workflow (creating `.mal` files, specific YAML/JSON instance models, initiating MAL compilation/simulation, visualizing attack graphs). However, its core strength lies in its extensibility via the Eclipse Modeling Framework (EMF) and related technologies (GMF, Sirius, Xtext).
+   `.mal` file creation/editing: Could be supported by developing a custom text editor using Eclipse frameworks like Xtext, providing syntax highlighting and validation. This requires significant development effort. Native support is 0.
+   Model Instance Definition: Papyrus excels at graphical modeling. One could define a UML Profile or a custom Domain Specific Language (DSL) using EMF/Sirius to graphically model the system assets and their connections as defined in a MAL specification. Exporting/Importing this graphical model to/from MAL-compatible YAML/JSON would require custom scripting or transformation development. Potential is high, but requires customization.
+   Simulation Initiation/Viewing: Papyrus itself is not a simulation engine. It could potentially be extended with plugins to trigger external MAL compilers (`malc`) and simulators. Viewing simulation results (attack graphs) would require developing custom visualization components (e.g., using GEF, Graphiti, or Sirius) or importing the results back into a Papyrus model format.
+Therefore, while not natively supported, Papyrus offers a potential platform backbone for building tools that cover the workflow, earning it a partial score.
+
+ Requirement: HLR-2 – Functional Suitability: Integration with MAL tools (e.g. compiler/simulator)
+Evaluation: 0.5 / 1
+Justification: Direct, out-of-the-box integration with specific MAL tools like `malc` is non-existent. However, Papyrus runs within the Eclipse IDE, which has robust support for integrating external tools and builders. Custom plugins can be developed to:
+1.  Define external tool configurations to run `malc` or other command-line MAL tools.
+2.  Trigger these tools from the Papyrus/Eclipse UI (e.g., via context menus on models).
+3.  Potentially parse the output (e.g., generated attack graphs or logs) for display or further processing within Papyrus.
+This integration is possible and leverages the underlying Eclipse framework's capabilities, but requires specific development effort to implement the bridge between Papyrus models/actions and the external MAL executables.
+
+ Requirement: HLR-3 – Visualization: Graph-based features: zoom, abstraction, grouping, visual customization
+Evaluation: 1 / 1
+Justification: As a graphical modeling tool, Papyrus inherently supports standard diagramming features like zoom, panning, and element arrangement. Through frameworks like Sirius (often used with Papyrus for custom modeling environments), advanced visualization features can be implemented:
+   Abstraction/Layers: Sirius allows defining layers to show/hide elements based on criteria.
+   Grouping: Standard diagramming allows visual grouping; semantic grouping depends on the metamodel.
+   Visual Customization: Papyrus/Sirius allows extensive customization of element appearance (shapes, colors, icons) based on model properties.
+However, applying these effectively to MAL attack graphs (which are outputs of simulation, not typically the primary modeling artifact in Papyrus) would require developing a custom visualization component or importing the attack graph data into a structure Papyrus can render (e.g., a custom EMF model with a Sirius visualization definition). The potential for rich, customized graph visualization is high, but requires significant development to tailor it for MAL attack graphs specifically. The base features exist, but the MAL-specific application does not.
+
+ Requirement: HLR-4 – Pattern Reuse: Ability to define, reuse graph motifs and attack patterns
+Evaluation: 1 / 1
+Justification: Papyrus, especially when used for DSL modeling via EMF/Sirius or through UML Profiles, supports mechanisms for pattern reuse:
+   UML Profiles: Stereotypes and tagged values can define reusable concepts extending standard UML.
+   Model Libraries/Templates: Papyrus allows creating reusable model libraries or templates.
+   Custom DSLs: If a MAL-specific DSL were built on Papyrus/EMF, the metamodel itself could define reusable constructs (e.g., common asset configurations or defense patterns).
+Applying this specifically to MAL attack patterns (sequences of attack steps) within the visualization of simulation results is less direct. It would likely involve post-processing the generated attack graph to identify patterns or developing custom visualization rules in Sirius to highlight known motifs. Reuse is possible at the system modeling stage but less inherent for attack graph analysis without custom development.
+
+ Requirement: HLR-5 – Documentation: Built-in guides, tutorials, and structured workflows
+Evaluation: 0.5 / 1
+Justification: Papyrus itself has extensive documentation, tutorials, and examples available through the Eclipse Help system and the Papyrus website, covering its core functionality (UML, SysML modeling) and its extension mechanisms (for developers). However, there is no built-in documentation, guides, or specific workflows tailored to using Papyrus for MAL modeling or simulation. Users would need to rely on the general Papyrus/Eclipse documentation and potentially documentation for specific extension frameworks (like Sirius or Xtext) if they were used to build MAL support. The score reflects good general documentation but a complete lack of MAL-specific guidance.
+
+ Requirement: HLR-6 – Usability: Intuitive GUI, drag-drop, dual (textual/graphical) views, syntax validation
+Evaluation: 1 / 1
+Justification: Papyrus provides a mature and generally intuitive graphical user interface common to Eclipse-based tools.
+   GUI/Drag-Drop: It offers standard diagram editors with palettes for dragging and dropping modeling elements.
+   Dual Views: It typically includes graphical diagram views, property sheet views (for editing element attributes textually), and an outline view. Depending on the specific configuration and installed plugins (like Xtext for DSLs), true side-by-side textual and graphical editing might be possible, though it often requires specific development.
+   Syntax Validation: Papyrus provides validation for standard languages like UML/SysML. If a custom MAL editor (e.g., using Xtext) or a MAL-specific graphical modeling environment (using EMF/Sirius) were developed, robust syntax and semantic validation rules could be implemented.
+Papyrus generally meets the expectations for a modern, usable modeling environment, even if MAL-specific views/validation require customization.
+
+ Requirement: HLR-7 – Collaboration: Real-time multi-user collaboration and Git/VCS integration
+Evaluation: 0.5 / 1
+Justification:
+   Real-time Collaboration: Papyrus does not offer native real-time, Google Docs-style multi-user collaboration on the same diagrams. Some Eclipse projects explore collaborative modeling (e.g., ECF), but it's not a standard, seamlessly integrated Papyrus feature.
+   Git/VCS Integration: As an Eclipse plugin, Papyrus benefits directly from Eclipse's excellent integration with version control systems like Git (via the EGit plugin). Model files (.uml, .notation, .di, or custom EMF model files) can be versioned, compared, and merged, although graphical model merging can sometimes be complex.
+The strength lies in robust asynchronous collaboration via standard VCS, while real-time capabilities are lacking.
+
+ Requirement: HLR-8 – Compatibility: Support for import/export in MAL-compatible formats
+Evaluation: 0 / 1
+Justification: Papyrus does not have built-in importers or exporters for MAL-specific formats (like `.mal` language specifications or typical YAML/JSON instance model formats used with MAL). Its standard import/export capabilities revolve around UML standards (XMI) and image formats. Supporting MAL formats would require developing custom plugins or scripts to parse MAL files into a Papyrus-representable model (likely EMF-based) and/or serialize Papyrus models into the required MAL formats (e.g., YAML/JSON for system instances). Without custom development, there is no compatibility.
+
+ Requirement: HLR-9 – Maintainability: Open-source, community-driven, sustainable development model
+Evaluation: 1 / 1
+Justification: Papyrus is a project hosted by the Eclipse Foundation, a well-established open-source organization.
+   Open-source: Papyrus is licensed under the Eclipse Public License (EPL), a business-friendly open-source license.
+   Community-driven: It has an active community of developers and users, contributing to its development and support.
+   Sustainable Development: Being part of the large Eclipse ecosystem ensures a degree of sustainability and continued development, leveraging the infrastructure and processes of the Foundation.
+
+ Requirement: HLR-10 – Performance: Handles large models and complex graphs without UI or system degradation
+Evaluation: 0.5 / 1
+Justification: Papyrus, like many complex graphical modeling tools based on Eclipse/EMF, can face performance challenges with very large models (e.g., tens of thousands of elements) or extremely complex diagrams. Performance depends heavily on the specific model's size and complexity, the underlying metamodel, the specific Papyrus version, JVM configuration, and the hardware used. While usable for moderately large models, generating and visualizing potentially huge MAL attack graphs (which can grow exponentially with system complexity) might push the limits of Papyrus's standard visualization frameworks or require significant optimization efforts in any custom visualization component. It's not guaranteed to handle massive attack graphs smoothly without dedicated optimization.
+
+ Requirement: HLR-11 – Portability: Cross-platform or web-based ease of use, low barrier to installation
+Evaluation: 0.5 / 1
+Justification:
+   Cross-platform: Papyrus is based on Java and Eclipse, making it inherently cross-platform (Windows, macOS, Linux).
+   Web-based: Papyrus is primarily a desktop application. While there are Eclipse projects aiming for web/cloud IDEs (like Eclipse Theia or Che) which could potentially host Papyrus-like functionality, standard Papyrus is not web-based.
+   Installation: Installation typically involves installing an Eclipse IDE and then adding the Papyrus features/plugins. This can be somewhat complex for users unfamiliar with the Eclipse ecosystem, presenting a higher barrier to entry compared to a standalone application or web tool. Pre-packaged distributions exist but still require a significant download and setup.
+
+ Requirement: HLR-12 – Security: Options for local/on-premise data storage for secure environments
+Evaluation: 1 / 1
+Justification: As a desktop application, Papyrus inherently stores all model data locally on the user's machine or on network drives accessible by the user. It does not rely on cloud storage by default. This makes it suitable for secure environments where data residency and control are paramount, as models and related artifacts can be kept entirely on-premise.
+
+---
+
+ Optional Final Summary
+
+Overall Suitability for Use with MAL:
+Papyrus is not an out-of-the-box solution for the MAL workflow. Its suitability lies in its potential as an extensible platform upon which custom MAL tooling could be built. It requires significant development effort using Eclipse frameworks (EMF, GMF, Sirius, Xtext, etc.) to support `.mal` editing, MAL-specific system modeling (graphical-to-textual mapping), MAL tool integration, and attack graph visualization.
+
+Notable Strengths:
+   Highly extensible and customizable due to its Eclipse/EMF foundation.
+   Mature graphical modeling capabilities (GUI, drag-drop, properties).
+   Strong VCS integration (Git).
+   Open-source with a large community and sustainable development model.
+   Supports local/on-premise data storage.
+
+Notable Weaknesses:
+   No native support for any part of the MAL workflow or its specific file formats.
+   Requires substantial development effort to integrate MAL tools and visualize results effectively.
+   Potential performance limitations with very large models or complex attack graphs.
+   Installation and setup can be complex for non-Eclipse users.
+   Lacks native real-time collaboration features.
+
+Standalone vs. Enabler:
+Papyrus functions primarily as an enabler within a potential, larger, custom-built MAL toolchain. It could provide the graphical front-end for system modeling and potentially results visualization, but would need to be integrated with external compilers/simulators (`malc`) and custom-developed components for MAL-specific file handling and data transformation. It is not a standalone MAL solution.

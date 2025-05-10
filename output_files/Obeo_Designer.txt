@@ -1,0 +1,75 @@
+### Requirement: HLR-1 – Functional Suitability: Support for Full MAL Workflow
+
+**Evaluation**: 0
+
+**Justification**: Although Obeo Designer is a powerful modeling tool that supports the creation and editing of DSLs (Domain Specific Languages) based on EMF (Eclipse Modeling Framework), there is no direct support for the Meta Attack Language (MAL) out of the box. However, it's possible to extend the tool with custom DSLs, which could potentially be used to create a MAL-based DSL. This requires custom development work and familiarity with EMF and Sirius (the graphical language design platform used by Obeo Designer).
+
+### Requirement: HLR-2 – Functional Integration with MAL tools (e.g. compiler/simulator)
+
+**Evaluation**: 0
+
+**Justification**: As mentioned in the HLR-1 evaluation, there is no direct support for MAL tools like the MALc compiler. This means that integrating Obeo Designer with MAL-specific tools would require custom development.
+
+### Requirement: HLR-3 – Visualization Graph-based features: zoom, abstraction, grouping, visual customization
+
+**Evaluation**: 1
+
+**Justification**: Obeo Designer offers various graph-based visualization features, including zooming, abstraction, and grouping. Additionally, it allows for custom visualization of elements, making it suitable for working with complex graphs and models.
+
+### Requirement: HLR-4 – Pattern Reuse Ability to define, reuse graph motifs and attack patterns
+
+**Evaluation**: 0
+
+**Justification**: Since there is no out-of-the-box support for MAL, it's unclear if Obeo Designer can be configured to support the reuse of MAL graph motifs or attack patterns.
+
+### Requirement: HLR-5 – Documentation Built-in guides, tutorials, and structured workflows
+
+**Evaluation**: 1
+
+**Justification**: Obeo Designer provides comprehensive documentation, tutorials, and example projects to help users get started with the tool. The documentation is well-structured and covers various aspects of the tool, including DSL creation, graphical editing, and customization.
+
+### Requirement: HLR-6 – Usability Intuitive GUI, drag-drop, dual (textual/graphical) views, syntax validation
+
+**Evaluation**: 1
+
+**Justification**: Obeo Designer has an intuitive Graphical User Interface (GUI) with drag-and-drop support and dual (textual/graphical) views for editing models. The tool also provides syntax validation to ensure the correctness of user input.
+
+### Requirement: HLR-7 – Collaboration Real-time multi-user collaboration and Git/VCS integration
+
+**Evaluation**: 0.5
+
+**Justification**: While Obeo Designer doesn't natively support real-time multi-user collaboration, it does support version control systems (VCS) like Git. This means that users can collaborate on projects by working on different branches and merging changes.
+
+### Requirement: HLR-8 – Compatibility Support for import/export in MAL-compatible formats
+
+**Evaluation**: 0
+
+**Justification**: As there is no direct support for MAL, Obeo Designer does not import or export MAL-specific formats out of the box. However, it can export models in XMI format, which can potentially be converted to MAL if an appropriate converter is available.
+
+### Requirement: HLR-9 – Maintainability Open-source, community-driven, sustainable development model
+
+**Evaluation**: 0
+
+**Justification**: Obeo Designer is a commercial tool developed by Obeo, with a focus on enterprise customers. Although it's based on open-source technologies like EMF and Sirius, the tool itself is not open-source.
+
+### Requirement: HLR-10 – Performance Handles large models and complex graphs without UI or system degradation
+
+**Evaluation**: 0.5
+
+**Justification**: While Obeo Designer is designed to handle large and complex models, the performance can degrade when dealing with very large graphs. This may be due to the complexity of the models or the specifics of the user's system.
+
+### Requirement: HLR-11 – Portability Cross-platform or web-based ease of use, low barrier to installation
+
+**Evaluation**: 1
+
+**Justification**: Obeo Designer is available for multiple platforms, including Windows, macOS, and Linux. Additionally, it can be installed as a standalone application or an Eclipse plugin, making it accessible to a wide range of users.
+
+### Requirement: HLR-12 – Security Options for local/on-premise data storage for secure environments
+
+**Evaluation**: 0.5
+
+**Justification**: Obeo Designer does not provide specific options for local or on-premise data storage for secure environments. However, as it supports version control systems, models can be stored and managed using secure Git repositories.
+
+### Final Summary
+
+Obeo Designer, while a powerful modeling tool for creating DSLs, does not have direct support for the Meta Attack Language (MAL) out of the box. To use it for MAL modeling, custom development work would be required. The tool offers suitable graph-based visualization features, good usability, and comprehensive documentation. However, it does not natively support MAL-specific tools or formats, and its lack of open-source nature may be a concern for some users. If MAL support is a critical requirement, other tools specifically designed for MAL modeling and simulation may be more suitable.

@@ -16,7 +16,7 @@ INPUT_JSONL_FILE = "/Users/thomaspathe/Documents/MAThesis-MALLM/LLM-Code/RAG/RAG
 FAISS_INDEX_PATH = "/Users/thomaspathe/Documents/MAThesis-MALLM/LLM-Code/RAG/RAG-DataPrep/capec_faiss_index" # Choose a new name for the combined index
 
 # Name of the Sentence Transformer model to use for embeddings
-EMBEDDING_MODEL_NAME = "all-mpnet-base-v2" # Or your preferred model
+EMBEDDING_MODEL_NAME = "all-mpnet-base-v2" 
 
 # --- End Configuration ---
 

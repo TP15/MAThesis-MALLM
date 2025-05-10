@@ -1,0 +1,115 @@
+
+ Requirement: HLR-1 – Functional Suitability: Support for Full MAL Workflow
+
+Evaluation: 1 / 1
+
+Justification: Adoxx is primarily an Enterprise Architecture (EA) and Business Process Management (BPM) tool suite.
+   Creation/editing of .mal files: Adoxx does not natively support editing `.mal` language specifications. This would need to be done in an external text editor.
+   Definition of system models: Adoxx excels at graphical modeling. It would be possible to define a meta-model within Adoxx representing MAL concepts (Assets, Attack Steps, Associations) using its meta-modeling capabilities (ADOit). System instances could then be graphically modeled based on this meta-model. However, direct creation/editing of MAL-specific instance formats like YAML/JSON is not a primary feature, though model data can often be exported/imported in structured formats (like XML or potentially through API/scripting).
+   Simulation initiation/viewing: Adoxx includes analysis and potentially simulation capabilities for BPMN/EA, but not specifically for MAL attack graph simulation. Initiating external MAL compilers (`malc`) or simulators would require custom integration (e.g., via scripting or API calls if available). Visualizing the results (attack graphs) is feasible given Adoxx's strong graph visualization capabilities, provided the simulation output can be imported or transformed into a format Adoxx understands.
+   Overall: Adoxx provides strong graphical modeling and visualization foundations but requires significant customization and integration effort to cover the full MAL workflow, particularly the language specification editing and direct simulation execution/integration.
+
+ Requirement: HLR-2 – Functional Integration with MAL tools (e.g. compiler/simulator)
+
+Evaluation: 1 / 1
+
+Justification: There is no evidence of built-in integration with `malc` or other specific MAL ecosystem tools. However, Adoxx (specifically the ADOit platform it's built on) emphasizes extensibility through meta-modeling, APIs, and scripting interfaces ("ADOscript"). This suggests that custom integration is possible, allowing Adoxx to potentially:
+1.  Export model data in a format consumable by `malc`.
+2.  Trigger external `malc` or simulation processes via scripts.
+3.  Import simulation results (attack graphs) for visualization.
+This integration would require development effort and is not an out-of-the-box feature. The score reflects the potential for integration rather than existing functionality.
+
+ Requirement: HLR-3 – Visualization: Graph-based features: zoom, abstraction, grouping, visual customization
+
+Evaluation: 1 / 1
+
+Justification: As a mature EA/BPM modeling tool, Adoxx provides rich graph visualization capabilities inherent to its domain. Based on its feature descriptions and focus areas (e.g., ArchiMate, BPMN modeling), it almost certainly supports:
+   Zoom/Pan: Standard features for any graphical modeler.
+   Abstraction/Grouping: Essential for managing complex EA models (e.g., layers, views, grouping elements). This could be leveraged to manage complex MAL models.
+   Visual Customization: Tools like ADOit typically allow customization of object appearance (icons, colors, styles) based on types or attributes, which could be used to represent MAL concepts (e.g., different asset types, compromised status).
+Adoxx's core strength lies in graphical modeling and visualization.
+
+ Requirement: HLR-4 – Pattern Reuse: Ability to define, reuse graph motifs and attack patterns
+
+Evaluation: 1 / 1
+
+Justification: EA and BPM tools heavily rely on pattern reuse for efficiency and consistency. Adoxx, through ADOit's capabilities, likely supports:
+   Meta-modeling: Defining reusable concepts (like MAL Assets, Attack Steps).
+   Model Libraries/Templates: Creating reusable model fragments or templates representing common system configurations or attack patterns (e.g., a standard "Phishing Attack" sequence).
+   Reference Models: Storing and reusing common patterns.
+This capability could be directly adapted to define and reuse MAL-specific patterns within the graphical modeling environment.
+
+ Requirement: HLR-5 – Documentation: Built-in guides, tutorials, and structured workflows
+
+Evaluation: 1 / 1
+
+Justification: Adoxx, being a product from a commercial entity (BOC Group), has official documentation, tutorials, and resources available on its website. These cover its core EA/BPM functionalities. However, there is no specific documentation related to MAL, threat modeling (beyond generic risk management in EA), or attack simulation workflows. Users would find general tool usage documentation but would need to develop their own MAL-specific workflow documentation based on any custom integrations built.
+
+ Requirement: HLR-6 – Usability: Intuitive GUI, drag-drop, dual (textual/graphical) views, syntax validation
+
+Evaluation: 1 / 1
+
+Justification:
+   Intuitive GUI, Drag-Drop: Expected standard for a modern graphical modeling tool like Adoxx. The interface appears professional and focused on visual modeling.
+   Dual (textual/graphical) views: Adoxx is primarily a graphical modeling tool. While properties of graphical objects can be edited textually (in property panels), it doesn't inherently offer a synchronized textual representation of the entire MAL model or language specification in the way some dedicated DSL tools might.
+   Syntax Validation: Adoxx provides validation for the modeling languages it supports (BPMN, ArchiMate, etc.) based on their defined meta-models. If a MAL meta-model were properly defined within Adoxx, it could enforce modeling rules graphically. However, it would not provide syntax validation for `.mal` language files directly.
+The usability is high for graphical modeling but lacks specific features for the textual aspects of MAL and `.mal` file validation.
+
+ Requirement: HLR-7 – Collaboration: Real-time multi-user collaboration and Git/VCS integration
+
+Evaluation: 1 / 1
+
+Justification: The Adoxx website explicitly lists "Collaboration Platform" as a key aspect. Features typically include a central repository, user roles/permissions, versioning, and potentially workflow/review processes. BOC Group documentation often mentions multi-user capabilities and model versioning within their repository structure. While direct, seamless Git integration like in software development IDEs might not be the primary mode, robust collaboration and versioning features tailored for modeling environments are present. Real-time co-editing might depend on the specific edition/setup but multi-user access to a central repository is standard.
+
+ Requirement: HLR-8 – Compatibility: Support for import/export in MAL-compatible formats
+
+Evaluation: 0.5 / 1
+
+Justification: Adoxx supports various import/export formats standard in the EA/BPM world (e.g., XML, XMI for model exchange, potentially Excel/CSV for data). It does not natively support MAL-specific formats (`.mal` files, specific YAML/JSON structures for MAL instances, or common attack graph formats). Compatibility would rely on:
+1.  Exporting model data from Adoxx (likely via XML or API) and transforming it externally into a format `malc` understands.
+2.  Transforming MAL simulation output (e.g., attack graph data) into a format Adoxx can import for visualization (e.g., a generic graph format like GraphML if supported, or a custom format via API/scripting).
+The tool has import/export capabilities, but significant adaptation is needed for MAL compatibility.
+
+ Requirement: HLR-9 – Maintainability: Open-source, community-driven, sustainable development model
+
+Evaluation: 1 / 1
+
+Justification: Adoxx is open-source.
+
+ Requirement: HLR-10 – Performance: Handles large models and complex graphs without UI or system degradation
+
+Evaluation: 1 / 1
+
+Justification: Enterprise Architecture tools are specifically designed to handle large, complex models representing entire organizations, their processes, systems, and infrastructure. Adoxx, being a tool in this category from an established vendor, is expected to be optimized for performance and scalability when dealing with large graphical models and underlying repository data. User reviews or case studies would provide definitive proof, but the nature of the tool strongly implies this capability.
+
+ Requirement: HLR-11 – Portability: Cross-platform or web-based ease of use, low barrier to installation
+
+Evaluation: 1 / 1
+
+Justification: Adoxx is offered as a web-based application. This provides excellent portability as it can be accessed through a web browser on various operating systems without complex client-side installation, lowering the barrier to use significantly compared to traditional desktop applications.
+
+ Requirement: HLR-12 – Security: Options for local/on-premise data storage for secure environments
+
+Evaluation: 1 / 1
+
+Justification: Enterprise tools like Adoxx, used for potentially sensitive organizational data, typically offer deployment options suitable for secure environments. The BOC Group website implies flexible deployment models. It's highly probable that Adoxx can be deployed on-premise, allowing organizations to keep their model data within their own infrastructure, meeting the requirement for local data storage.
+
+---
+
+🔚 Optional Final Summary
+
+   Overall suitability for use with MAL: Adoxx is not a dedicated MAL tool and lacks out-of-the-box support for the MAL language or its specific toolchain. However, its strong graphical modeling, meta-modeling, visualization, and extensibility features make it a potential enabler for certain parts of the MAL workflow, specifically system modeling and attack graph visualization. Significant custom integration effort (meta-model definition, scripting, API usage) would be required to bridge the gaps and connect it with MAL compilers/simulators.
+   Notable strengths:
+       Powerful and mature graphical modeling environment (EA/BPM focused).
+       Excellent graph visualization capabilities suitable for attack graphs.
+       Strong support for pattern reuse via meta-modeling and templates.
+       Robust collaboration and versioning features.
+       High performance and scalability for large models.
+       Web-based accessibility and on-premise deployment options.
+   Notable weaknesses (for MAL context):
+       No native support for `.mal` language files or MAL-specific model formats (YAML/JSON).
+       No built-in integration with `malc` or MAL simulators.
+       Requires substantial customization/development effort for integration.
+       Not open-source.
+       Documentation is general, not MAL-specific.
+   Standalone vs. Enabler: Adoxx cannot function as a standalone solution for the full MAL workflow. It could potentially serve as a powerful enabler for the visual modeling of system instances (after defining a MAL meta-model) and the visualization of attack simulation results within a larger, custom-built toolchain that includes external MAL compilers and simulators.

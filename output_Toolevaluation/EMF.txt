@@ -1,0 +1,73 @@
+
+ Requirement: HLR-1 – Functional Suitability: Support for Full MAL Workflow
+Evaluation: 0.5
+Justification: EMF excels at the modeling aspects. It can be used to define the MAL language specification itself (using Ecore, its meta-metamodel) and generate Java classes representing assets, attack steps, etc. It can also manage system model instances conforming to that specification. However, EMF does not natively include features for initiating MAL compilation/simulation (`malc`) or directly viewing the resulting attack graphs in a specialized way. While EMF forms a strong foundation for building tools that could cover the full workflow, significant custom development or integration with other tools (like visualization frameworks or scripting to call `malc`) would be required to achieve full support. It strongly supports the definition phases but lacks built-in support for the execution and specialized visualization phases of the MAL workflow.
+
+ Requirement: HLR-2 – Functional Suitability: Integration with MAL tools (e.g. compiler/simulator)
+Evaluation: 0
+Justification: EMF provides no built-in, specific integration points for external tools like the `malc` compiler/simulator. Integration would need to be custom-built. This would typically involve:
+1.  Developing code to export the EMF-based system model instance into a format `malc` can consume (e.g., YAML, JSON, or a custom format if `malc` supports it).
+2.  Writing code (e.g., an Eclipse plugin action) to invoke the external `malc` process, passing the exported model.
+3.  Developing code to potentially parse the output of `malc` (the attack graph) and import it back into an EMF model representation for further analysis or visualization within the Eclipse environment.
+This requires significant development effort and is not an out-of-the-box capability.
+
+ Requirement: HLR-3 – Visualization: Graph-based features: zoom, abstraction, grouping, visual customization
+Evaluation: 0.5
+Justification: EMF itself does not provide sophisticated graph visualization capabilities. Its default editors are typically tree-based. However, EMF is designed to be the data backend for graphical modeling tools within the Eclipse ecosystem, primarily:
+   GEF (Graphical Editing Framework) / GMF (Graphical Modeling Framework): Allow building rich, diagrammatic editors based on EMF models.
+   Sirius: A powerful framework for creating custom graphical modeling workbenches with advanced features like multiple viewpoints, layers, filters, and complex visual customizations, all based on EMF models.
+Therefore, while EMF core lacks these features, it serves as the essential foundation upon which powerful graph visualization (including zoom, abstraction, grouping, customization) can be built using these companion frameworks. The potential is high, but it requires substantial development effort using GEF/GMF or Sirius; it's not inherent to EMF alone.
+
+ Requirement: HLR-4 – Pattern Reuse: Ability to define, reuse graph motifs and attack patterns
+Evaluation: 0.5
+Justification: EMF's core strength lies in metamodeling (Ecore). This allows defining abstract concepts, inheritance, and reusable structures within the MAL language specification itself. Once defined in the Ecore metamodel, these structures (representing potential patterns or motifs) can be reused when creating system model instances. For visual pattern reuse (graph motifs), this capability would depend on the visualization framework used (e.g., GMF/Sirius), which often support palettes and reusable visual elements linked to the underlying EMF model elements. EMF enables the semantic reuse; graphical reuse requires extensions.
+
+ Requirement: HLR-5 – Documentation: Built-in guides, tutorials, and structured workflows
+Evaluation: 0.5
+Justification: EMF itself is extensively documented with books, official documentation, tutorials, and examples focusing on how to use EMF for modeling and code generation. However, this documentation covers EMF's general capabilities, not a specific application like the MAL workflow. There are no built-in guides or tutorials specifically for using EMF to model MAL, integrate `malc`, or visualize attack graphs. Users would need to adapt general EMF knowledge to the specific MAL domain and workflow, likely requiring significant expertise.
+
+ Requirement: HLR-6 – Usability: Intuitive GUI, drag-drop, dual (textual/graphical) views, syntax validation
+Evaluation: 0.5
+Justification: EMF can automatically generate basic, functional tree-based editors for models, which are generally usable but not always highly intuitive for complex graph structures. Achieving an intuitive GUI with drag-and-drop for graph modeling requires using extensions like GEF/GMF or Sirius, which involves considerable development effort. Dual textual/graphical views are also not standard but can be achieved by combining EMF with frameworks like Xtext (for textual DSLs) and Sirius/GMF (for graphical views), requiring integration work. EMF provides strong support for metamodel validation (ensuring the Ecore model is well-formed) and can support model instance validation through constraints (e.g., OCL or Java validation rules), providing a form of syntax validation for system models. Overall usability depends heavily on the effort invested in building editors on top of EMF.
+
+ Requirement: HLR-7 – Collaboration: Real-time multi-user collaboration and Git/VCS integration
+Evaluation: 0.5
+Justification: EMF models are typically persisted as files (commonly XMI, an XML-based format). These files integrate seamlessly with standard Version Control Systems (VCS) like Git. Branching, merging, and tracking history work as they would for any code or text-based artifact, although merging complex XMI files can sometimes lead to conflicts that require manual resolution. EMF does not provide native support for real-time, simultaneous multi-user collaboration on the same model instance (like Google Docs). Collaboration primarily happens asynchronously via VCS.
+
+ Requirement: HLR-8 – Compatibility: Support for import/export in MAL-compatible formats
+Evaluation: 0.5
+Justification: EMF's default serialization format is XMI. However, EMF is highly extensible regarding persistence. It's possible to develop custom "Resource" implementations to load and save models in various formats, including JSON, potentially YAML (with extra libraries), or custom binary/textual formats. Therefore, while EMF doesn't natively support MAL-specific formats (like a specific YAML structure for system models or a particular attack graph output format), it provides the framework mechanisms to build importers and exporters for these formats. This requires custom Java development.
+
+ Requirement: HLR-9 – Maintainability: Open-source, community-driven, sustainable development model
+Evaluation: 1
+Justification: EMF is a cornerstone project of the Eclipse Foundation. It is open-source (Eclipse Public License - EPL), has a very large, active community, is widely used in industry and academia, and has a long history of active development and maintenance. It is a mature and sustainable project.
+
+ Requirement: HLR-10 – Performance: Handles large models and complex graphs without UI or system degradation
+Evaluation: 0.5
+Justification: EMF core is generally performant for handling the in-memory representation of models. However, performance, especially UI responsiveness, can degrade when dealing with extremely large models (e.g., millions of elements) or highly complex graphical representations built using frameworks like GMF or Sirius. Loading, saving, and validating very large models can also become time-consuming. Performance often depends on how the metamodel is structured, the efficiency of custom code (like validation rules or serializers), and the complexity of the graphical editors built on top. While suitable for many moderately complex scenarios, specific tuning or alternative approaches might be needed for extremely large-scale MAL models and graphs.
+
+ Requirement: HLR-11 – Portability: Cross-platform or web-based ease of use, low barrier to installation
+Evaluation: 0.5
+Justification: EMF is based on the Eclipse IDE, which is Java-based and runs on major desktop operating systems (Windows, macOS, Linux). This provides good cross-platform portability. However, it requires installing the Java Runtime Environment (JRE) and the Eclipse IDE with the necessary EMF plugins. This presents a higher barrier to entry compared to a purely web-based tool or a simple standalone executable. There are initiatives like Eclipse Che for cloud/web-based IDEs, and EMF components can be used in server-side or standalone Java applications, but the typical usage context involves the desktop Eclipse IDE.
+
+ Requirement: HLR-12 – Security: Options for local/on-premise data storage for secure environments
+Evaluation: 1
+Justification: As EMF is primarily a framework used within the desktop Eclipse IDE or within custom Java applications, model data (.ecore files, model instance files like .xmi) is stored locally on the user's filesystem or network shares by default. This makes it inherently suitable for on-premise deployment and environments where data residency and security are critical concerns. There are no mandatory cloud components or external data storage requirements.
+
+---
+
+🔚 Optional Final Summary
+
+   Overall Suitability for use with MAL: EMF is moderately suitable as a foundational framework but not as an out-of-the-box solution for the full MAL workflow. Its strengths lie in defining the MAL language structure (metamodeling) and managing system model instances.
+   Notable Strengths:
+       Strong metamodeling capabilities (Ecore) ideal for defining MAL specifications.
+       Mature, open-source, and well-maintained with a large community.
+       Highly extensible for persistence, validation, and UI development.
+       Excellent for local/on-premise deployment (HLR-12).
+       Good integration with standard VCS (Git).
+   Notable Weaknesses:
+       Lacks built-in support for MAL compilation/simulation integration (requires custom code).
+       No native graph visualization; requires significant effort using extensions like GMF or Sirius.
+       Usability depends heavily on custom editor development built upon EMF.
+       Requires Eclipse IDE installation, potentially a barrier for some users.
+   Standalone vs. Enabler: EMF functions best as an enabler within a larger, custom-built toolchain for MAL analysis. It provides the robust modeling backbone upon which specialized MAL tooling (editors, simulation integration, visualizers) can be developed within the Eclipse ecosystem. It is not a standalone tool for end-to-end MAL workflows.
