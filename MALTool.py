@@ -7,7 +7,7 @@ import time # Import time for potential delays
 # --- Konfiguration ---
 # Es ist sicherer, den API-Schlüssel als Umgebungsvariable zu setzen,
 # aber hier wird er direkt verwendet, wie im Originalskript.
-API_KEY = "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"
+API_KEY = ""
 BASE_URL = "https://openrouter.ai/api/v1"
 MODEL = "google/gemini-2.5-pro-preview-03-25" # Oder ein anderes Modell deiner Wahl, z.B. "openai/gpt-4-turbo" für bessere Ergebnisse bei komplexen Prompts
 # INPUT_CSV_FILE = "input_data.csv" # No longer needed

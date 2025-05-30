@@ -6,7 +6,7 @@ import glob
 import shutil
 
 client = OpenAI(
-    api_key="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",
+    api_key="",
     base_url="https://openrouter.ai/api/v1"
 )
 
