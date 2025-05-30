@@ -1,0 +1,74 @@
+**Objective:** Identify and define all relevant attack steps and defenses for the assets defined in the previous step.
+
+**Prerequisites:** You should have already defined your Assets and Categories from Prompt 1.
+
+**Your Task:**
+For **each Asset** defined previously, specify the following:
+
+**A. Attack Steps:**
+   - These represent the actual malicious actions or threats that can occur to the asset.
+   - For each attack step:
+     * **Name:** A descriptive name for the attack step (e.g., `gainPrivilegedAccess`, `exploitVulnerability`, `dataExfiltration`).
+     * **Type (AND/OR):**
+         * `OR` ( | ): The attack step succeeds if *any* of its preceding (parent) attack steps are successful.
+         * `AND` ( & ): The attack step succeeds only if *all* of its preceding (parent) attack steps are successful.
+     * **Description:** A brief explanation of what the attack step entails.
+     * **Connected Follow-up Attack Steps (Children):** List any attack steps (on this asset or connected assets via associations) that can be executed *after* this attack step successfully occurs. Specify the target asset and attack step (e.g., `-> AssetName.attackStepName`).
+     * **Preceding Attack Steps (Parents):** If this attack step depends on other attack steps being completed first (either on the same asset or from a connected asset), list them. This defines the attack path logic.
+     * **(Optional) Time To Compromise (TTC):** Specify a probability distribution if the effort or likelihood of this attack step can be quantified (e.g., `Exponential(0.1)`, `Bernoulli(0.5)`). If not specified, it might be assumed instantaneous or defined later.
+     * **(Optional) Special Types (E / !E for existence checks):**
+         * `E` (exists): This step's availability depends on the *existence* of a specific linked asset instance (e.g., an Antivirus software being present). Specify the condition (e.g., `<- linkedRoleName [TargetAssetType]`).
+         * `!E` (does not exist): This step's availability depends on the *absence* of a specific linked asset instance. Specify the condition.
+
+**B. Defenses:**
+   - These are countermeasures or security mechanisms that, if active (TRUE), can prevent or mitigate specific attack steps.
+   - For each defense:
+     * **Name:** A descriptive name for the defense (e.g., `isPatched`, `firewallEnabled`, `mfaActive`).
+     * **Description:** A brief explanation of what the defense does.
+     * **Blocked Attack Steps:** List the attack step(s) on this asset that this defense directly prevents or makes harder (typically by being a precondition to an `AND` attack step that requires the defense to be FALSE, or by disabling an `OR` path).
+
+**Output Format Example (for one Asset):**
+
+Asset Name: [e.g., OperatingSystem]
+
+Attack Steps:
+  - Name: `attemptExploitKnownVulnerability`
+    Type: `OR`
+    Description: Attacker tries to exploit a publicly known vulnerability.
+    Connected Follow-up Attack Steps: `-> OperatingSystem.executeKnownExploit`, `-> OperatingSystem.bypassAVwithKnownVulnExploit`
+    Preceding Attack Steps: (Could be `OperatingSystem.connect` or from a linked asset)
+    TTC: `Exponential(0.1)`
+  - Name: `executeKnownExploit`
+    Type: `AND`
+    Description: Attacker successfully executes code via the known vulnerability.
+    Connected Follow-up Attack Steps: `-> OperatingSystem.compromise`
+    Preceding Attack Steps: `OperatingSystem.attemptExploitKnownVulnerability`, `OperatingSystem.enableExploitKnownVulnerability`
+  - Name: `compromise`
+    Type: `OR`
+    Description: The operating system is fully compromised.
+    Connected Follow-up Attack Steps: (Could lead to attacks on other connected assets like `-> StoredCredentials.access` or `-> Network.communicate`)
+    Preceding Attack Steps: `OperatingSystem.executeKnownExploit`, `OperatingSystem.executeZeroDayExploit`, `OperatingSystem.authCompromise`
+  - Name: `antiVirusProtected` (Example of an E step)
+    Type: `E`
+    Description: Checks if an antivirus is running on this OS.
+    Condition: `<- executees [AntiVirus]`
+    Connected Follow-up Attack Steps: `-> OperatingSystem.bypassAVwithKnownVulnExploit`, `-> OperatingSystem.bypassAVwithZeroDayExploit`
+
+Defenses:
+  - Name: `patched`
+    Description: The OS has all relevant security patches applied.
+    Blocked Attack Steps: Typically makes `attemptExploitKnownVulnerability` harder or part of an AND condition that requires `patched` to be false. (e.g., `patched -> # attemptExploitKnownVulnerability` as shown in the example language, meaning if `patched` is true, `attemptExploitKnownVulnerability` is disabled or a specific path to it is).
+  - Name: `antiVirusEnabled`
+    Description: An antivirus solution is active and updated.
+    Blocked Attack Steps: (Affects the success of `bypassAVwithKnownVulnExploit` or `bypassAVwithZeroDayExploit`)
+
+**Contextual Information (Optional - For RAG):**
+* [Provide threat intelligence reports, vulnerability databases (e.g., CVEs), security best practice guides relevant to your domain, or known attack patterns like MITRE ATT&CK].
+* *Refer to "1-s2.0-S0167404823001943-main.pdf" for formal definitions of Attack Steps (AND/OR/E/!E), Defenses, and TTC. The example language within this document is a great illustration.*
+* *Consult "Towards a Systematic Method for Developing Meta Attack Language Instances (1).pdf" for the conceptual role of attack steps and defenses in MAL DSLs.*
+
+**Best Practices to Consider:**
+* **Comprehensive Coverage:** Try to identify all plausible attack steps and relevant defenses for each asset.
+* **Logical Flow:** Ensure the connections between attack steps (parent/child relationships) form logical attack paths.
+* **Defense Placement:** Defenses should clearly link to the attack steps they affect.
+* **Iterative Refinement:** This is often an iterative process. You might discover new attack steps or defenses as you build the model.

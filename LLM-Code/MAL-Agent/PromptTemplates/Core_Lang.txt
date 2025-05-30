@@ -1,0 +1,57 @@
+**Objective:** Define the foundational elements for a new Meta Attack Language (MAL).
+
+**Your Task:**
+Based on the domain you are modeling, please provide the following information:
+
+**0. MAL Language Name:**
+   - Propose a concise and descriptive name for this new MAL.
+     * *Consider the specific domain this MAL will target (e.g., "CloudServiceMAL," "IndustrialControlSystemMAL").*
+
+**1. Identify All Assets:**
+   - List all the essential components, entities, or elements within your target domain that can be involved in or affected by an attack. These are your 'Assets'.
+   - For each asset, provide:
+     * **Name:** A clear and unique name for the asset.
+     * **Description:** A brief explanation of what the asset represents in your domain.
+     * **(Optional) Abstract/Concrete:** Specify if the asset is abstract (a general category that won't be directly instantiated but extended by other assets) or concrete (can be directly instantiated in a model).
+     * **(Optional) Parent Asset:** If this asset inherits properties from another (abstract) asset, specify the parent asset's name.
+
+**3. Group Assets into Categories:**
+   - Organize the identified assets into logical 'Categories'. Categories help in structuring the language and improving its understandability.
+   - For each category, provide:
+     * **Category Name:** A descriptive name for the group of assets.
+     * **Contained Assets:** List the names of the assets that belong to this category.
+
+**Output Format Example:**
+
+MAL Language Name: [Your MAL Name Here]
+
+Categories:
+  - Category Name: [e.g., NetworkInfrastructure]
+    Assets:
+      - Asset:
+          Name: [e.g., Router]
+          Description: [e.g., A device that forwards data packets between computer networks.]
+          Abstract/Concrete: Concrete
+          Parent Asset: (Optional) [e.g., NetworkDevice]
+      - Asset:
+          Name: [e.g., Firewall]
+          Description: [e.g., A network security system that monitors and controls incoming and outgoing network traffic.]
+          Abstract/Concrete: Concrete
+          Parent Asset: (Optional) [e.g., SecurityAppliance]
+  - Category Name: [e.g., EndUserDevices]
+    Assets:
+      - Asset:
+          Name: [e.g., Workstation]
+          Description: [e.g., A personal computer used by an end-user.]
+          Abstract/Concrete: Concrete
+          Parent Asset: (Optional) [e.g., ComputingDevice]
+
+**Contextual Information (Optional - For RAG):**
+* [If you have domain-specific documents, standards (e.g., IEC 61850 for power systems), or existing threat models, you can reference them here or provide their content to aid the generation process.]
+* *Refer to the provided documents "Towards a Systematic Method for Developing Meta Attack Language Instances (1).pdf" and "1-s2.0-S0167404823001943-main.pdf" for general MAL concepts like Assets, Categories, and Inheritance.*
+
+**Best Practices to Consider:**
+* **Clarity and Precision:** Use clear, unambiguous names and descriptions.
+* **Domain Relevance:** Ensure all assets and categories accurately reflect the target domain.
+* **Granularity:** Decide on an appropriate level of detail for your assets. You can start more general and refine later.
+* **Reusability:** Think about how assets might be reused or extended. Abstract assets are good for this.

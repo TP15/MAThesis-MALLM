@@ -1,0 +1,120 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red221\green221\blue220;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c99985\c0;\cssrgb\c89216\c89215\c88993;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww15560\viewh14960\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 #id: "ics.initial_access.mal"\
+#version: "1.0.0"\
+\
+category External \{\
+  asset AttackerInfrastructure \{\
+    & hostDriveByCompromiseWebsite [Exponential(0.1)] -> victimUserEndpoint.visitDriveByWebsite\
+    & sendSpearphishingEmail [Exponential(0.2)] -> emailRecipientEndpoint.receiveSpearphishingEmail\
+    & prepareInfectedRemovableMedia [Exponential(0.2)] -> infectedMedia.payloadLoaded\
+    & compromiseSupplierSystems [Exponential(0.02)] -> targetedSupplier.environmentInfiltrated\
+    & rogueMasterPayloadReady  -> targetNetworkForRogueMaster.deployRogueMaster\
+  \}\
+  asset Supplier \{\
+    & environmentInfiltrated -> compromiseShippedProduct\
+    & compromiseShippedProduct [Exponential(0.01)] -> developedProduct.isCompromisedAtSource\
+  \}\
+\}\
+\
+category Actor \{\
+  asset User \{\
+    & trickedBySocialEngineering [Bernoulli(0.4)] -> operatesEndpoint.openMaliciousAttachment, operatesEndpoint.visitDriveByWebsite, handlesMedia.introduceInfectedMediaToOT\
+    & credentialsCompromised [Exponential(0.05)] -> authenticatesToGateway.abuseStolenCredentials\
+  \}\
+\}\
+\
+category System \{\
+  asset UserEndpoint \{\
+    & visitDriveByWebsite -> browserExploitedByDriveBy\
+    & browserExploitedByDriveBy [Gamma(2.0,1.0)] -> gainFootholdOnEndpoint\
+    & receiveSpearphishingEmail -> openMaliciousAttachment\
+    & openMaliciousAttachment [Bernoulli(0.3)] -> gainFootholdOnEndpoint\
+    & gainFootholdOnEndpoint  -> connectedToCorporateNetwork.initialAccessAchieved, connectedToICSNetwork.initialAccessAchieved\
+  \}\
+  asset PublicApplicationServer \{\
+    & exploitPublicFacingVulnerability [Exponential(0.08)] -> compromised\
+    & compromised  -> appServerLinksToCorporate.initialAccessAchieved, appServerLinksToICS.initialAccessAchieved\
+  \}\
+  asset ExternalRemoteAccessGateway \{\
+    & exploitGatewayVulnerability [Exponential(0.07)] -> gatewayCompromised\
+    & abuseStolenCredentials [Exponential(0.1)] -> gatewayCompromised\
+    & gatewayCompromised  -> providesRemoteAccessToCorporate.initialAccessAchieved, providesRemoteAccessToICS.initialAccessAchieved\
+  \}\
+  asset InternetExposedDevice \{\
+    & accessViaDefaultOrWeakCredentials [Exponential(0.15)] -> deviceCompromised\
+    & deviceCompromised  -> exposedDeviceConnectsToICS.initialAccessAchieved, exposedDeviceConnectsToCorporate.initialAccessAchieved\
+  \}\
+  asset RemovableMediaDevice \{\
+    & payloadLoaded\
+    & introduceInfectedMediaToOT [Bernoulli(0.5)] -> otSystemTarget.compromiseViaRemovableMedia\
+  \}\
+  asset SoftwareOrHardwareProduct \{\
+    & isCompromisedAtSource\
+    & deployedInICSWithBackdoor  -> installedIntoOTSystem.compromiseViaSupplyChain\
+  \}\
+  asset TransientDevice \{\
+    & compromisedExternally [Exponential(0.1)]\
+    & connectToICSNetworkWhileCompromised  -> transientConnectionToICS.initialAccessAchieved\
+  \}\
+  asset WirelessAccessPoint \{\
+    & exploitWirelessVulnerabilities [Exponential(0.06)] -> wapCompromised\
+    & wapCompromised  -> providesWirelessToICS.initialAccessAchieved, providesWirelessToCorporate.initialAccessAchieved\
+  \}\
+  asset OTAsset \{\
+    & compromiseViaRemovableMedia -> otAssetCompromised\
+    & compromiseViaSupplyChain -> otAssetCompromised\
+    & manipulatedByRogueMaster -> otAssetCompromised, disruptedOperation\
+    & otAssetCompromised  -> memberOfICSNetwork.footholdEstablishedOnOTAsset\
+    & disruptedOperation  -> memberOfICSNetwork.processDisruptionInICS\
+  \}\
+\}\
+\
+category Network \{\
+  asset ICSNetwork \{\
+    & initialAccessAchieved -> deployRogueMaster\
+    & footholdEstablishedOnOTAsset\
+    & deployRogueMaster [Exponential(0.1)] -> disruptedByRogueMaster, controlsOutstation.receiveRogueCommands\
+    & disruptedByRogueMaster -> processDisruptionInICS\
+    & processDisruptionInICS\
+  \}\
+  asset CorporateNetwork \{\
+    & initialAccessAchieved\
+  \}\
+\}\
+\
+associations \{\
+  AttackerInfrastructure [driveBySite] 0..* <-- UserEndpointBrowsing --> 0..* [victimUserEndpoint] UserEndpoint\
+  AttackerInfrastructure [emailSource] 0..* <-- EmailExchange --> 0..* [emailRecipientEndpoint] UserEndpoint\
+  AttackerInfrastructure [mediaCorrupter] 0..* <-- MediaInfection --> 0..* [infectedMedia] RemovableMediaDevice\
+  AttackerInfrastructure [supplierAttacker] 0..* <-- SupplierCompromise --> 0..* [targetedSupplier] Supplier\
+  User [user] * <-- UserOperationOfEndpoint --> 0..1 [operatesEndpoint] UserEndpoint\
+  User [mediaHandler] * <-- UserHandlingMedia --> 0..* [handlesMedia] RemovableMediaDevice\
+  User [remoteUser] * <-- UserAuthenticationToGateway --> 0..* [authenticatesToGateway] ExternalRemoteAccessGateway\
+  UserEndpoint [endpointInCorporate] * <-- UserEndpointToCorporateNet --> 0..1 [connectedToCorporateNetwork] CorporateNetwork\
+  UserEndpoint [endpointInICS] * <-- UserEndpointToICSNet --> 0..1 [connectedToICSNetwork] ICSNetwork\
+  PublicApplicationServer [publicAppForCorporate] * <-- PublicAppToCorporateNet --> 0..1 [appServerLinksToCorporate] CorporateNetwork\
+  PublicApplicationServer [publicAppForICS] * <-- PublicAppToICSNet --> 0..1 [appServerLinksToICS] ICSNetwork\
+  ExternalRemoteAccessGateway [gatewayForCorporate] * <-- RemoteAccessToCorporateNet --> 0..1 [providesRemoteAccessToCorporate] CorporateNetwork\
+  ExternalRemoteAccessGateway [gatewayForICS] * <-- RemoteAccessToICSNet --> 0..1 [providesRemoteAccessToICS] ICSNetwork\
+  InternetExposedDevice [exposedDeviceOnICS] * <-- InternetExposedToICSNet --> 0..1 [exposedDeviceConnectsToICS] ICSNetwork\
+  InternetExposedDevice [exposedDeviceOnCorporate] * <-- InternetExposedToCorporateNet --> 0..1 [exposedDeviceConnectsToCorporate] CorporateNetwork\
+  RemovableMediaDevice [mediaDevice] * <-- RemovableMediaToOTAsset --> 0..* [otSystemTarget] OTAsset\
+  Supplier [productSupplier] 1 <-- SupplierToProduct --> * [developedProduct] SoftwareOrHardwareProduct\
+  SoftwareOrHardwareProduct [compromisedProduct] * <-- ProductToOTAsset --> 0..* [installedIntoOTSystem] OTAsset\
+  TransientDevice [transientAsset] * <-- TransientDeviceToICSNet --> 0..1 [transientConnectionToICS] ICSNetwork\
+  WirelessAccessPoint [wapForICS] * <-- WirelessAPToICSNet --> 0..1 [providesWirelessToICS] ICSNetwork\
+  WirelessAccessPoint [wapForCorporate] * <-- WirelessAPToCorporateNet --> 0..1 [providesWirelessToCorporate] CorporateNetwork\
+  OTAsset [assetInICS] * <-- OTAssetInICSNetwork --> 1 [memberOfICSNetwork] ICSNetwork\
+  AttackerInfrastructure [sourceOfRogueMasterPayload] 0..1 <-- RogueMasterStaging --> 0..* [targetNetworkForRogueMaster] ICSNetwork\
+  ICSNetwork [controllingNetwork] 1 <-- ICSNetworkControlsOutstation --> * [controlsOutstation] Outstation\
+\}}
